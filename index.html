@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>متجر الزبيب</title>
+  <link rel="stylesheet" href="darkmod.css">
+  <link rel="stylesheet" href="myprocss.css">
+</head>
+<body>
+
+  <!-- صفحة تسجيل الدخول -->
+  <section id="loginSection" style="display: block;">
+    <div class="login-box">
+      <h2>تسجيل الدخول</h2>
+      <div id="loginErrorMessage" style="color: red; font-weight: bold; display: none;"></div>
+      <form id="loginForm">
+        <input type="text" id="username" name="username" placeholder="اسم المستخدم" required>
+        <input type="password" id="password" name="password" placeholder="كلمة المرور" required>
+        <button type="submit">دخول</button>
+      </form>
+            <p style="font-size: 0.8em; color: #8b1212; margin-top: 10px;">(ملاحظة: يمكنك استخدام أي اسم مستخدم وكلمة مرور للمحاكاة)</p>
+
+    </div>
+  </section>
+
+  <!-- الصفحة الرئيسية -->
+  <section id="mainSection" style="display: none;">
+    <header>
+      متجر لكل انواع الزبيب
+      <div class="header-buttons">
+        <button onclick="toggleDarkMode()">الوضع الليلي</button>
+        <button onclick="showCart()">سلة التسوق</button>
+        <button onclick="logout()" class="logout-button" style="color:white">تسجيل الخروج</button>
+      </div>
+    </header>
+    
+    <main>
+      <h1>مرحبا بك في متجر الزبيب</h1>
+      <p>اكتشف ألذ أنواع الزبيب لدينا!</p>
+      <div class="products" id="productList"></div>
+    </main>
+    <footer>
+      <p>العنوان: تعز | اسم المتجر: متجر الزبيب | تطوير: م\عبدالرحمن شداد + م\احمد رشدي 776387005</p>
+    </footer>
+  </section>
+
+  <!-- تفاصيل المنتج -->
+  <section id="detailsSection" style="display: none;">
+    <div class="details-box">
+      <h2 id="detailTitle"></h2>
+      <img id="detailImage" src="" alt="صورة المنتج" />
+      <p id="detailDescription"></p>
+      <p id="detailBenefits"><strong>الفوائد:</strong> <span id="benefitsText"></span></p>
+      <button onclick="backToMain()">عودة للصفحة الرئيسية</button>
+    </div>
+  </section>
+
+  <!-- سلة التسوق -->
+  <section id="cartSection" style="display: none;">
+    <h2>سلة التسوق</h2>
+    <div id="cartItems"></div>
+    <button onclick="generateInvoice()">شراء نقدا</button>
+    <button><a href="https://krymi.com" target="_blank" style="color:white">لدفع عبر الكريمي</a></button>
+    <button onclick="backToMain()">عودة</button>
+  </section>
+
+  <!-- الفاتورة -->
+  <section id="invoiceSection" style="display: none;">
+    <h2>فاتورتك</h2>
+    <div id="invoiceContent"></div>
+    <p>شكراً لتسوقك معنا!</p>
+    <button onclick="returnToMain()">عودة للصفحة الرئيسية</button>
+  </section>
+
+  <script>
+    // بيانات المنتجات الافتراضية
+    const products = [
+            { id: 1, name: " تشكيلة مكسرات  ", description: "شكيلة مكسرات غنــية بالفيتمينات", price: 2800, image: "phot24.jpg" },
+
+            { id: 13, name: "زبيب أسود", description: "زبيب أسود بلدي فاخر غني بالفيتامينات", price: 2500, image: "pho1.jpg" },
+{ id: 5, name: "زبيب صعدي", description: "زبيب من مزارع صعدة العريقة", price: 5000, image: "pho5.jpg" },
+      { id: 6, name: "زبيب منوع", description: "زبيب مشكل من كل الانواع مغذي ومفيد", price: 2800, image: "phot6.jpg" },
+     
+      { id: 2, name: "زبيب أبيض", description: " زبيب أبيض من أجود الأنواع يحتوي على كل الفيتمينات", price: 3000, image: "pho2.jpg" },
+      { id: 3, name: "زبيب رازقي", description: "زبيب رازقي يمني أصيل", price: 4500, image: "pho3.jpg" },
+      { id: 4, name: "زبيب جبلي", description: "زبيب جبري مشهور بجودته", price: 3500, image: "pho4.jpg" },
+       { id: 8, name: "زبيب شامي", description: "زبيب دمشقي عالي الجودة نادر", price: 2800, image: "pho10.jpg" },
+      { id: 9, name: "زبيب احمر", description: "زبيب احمر مستورد ايراني عالي الجودة", price: 2800, image: "pho11.jpg" },
+      { id: 10, name: "زبيب صيني", description: "زبيب صيني مستورد ", price: 2800, image: "pho12.jpg" },
+      { id: 11, name: "زبيب مشكل", description: "زبيب مشكل ومنوع من عدة انواع مفيده", price: 2800, image: "pho20.jpg" },
+       { id: 7, name: "زبيب اخضر", description: "زبيب اخضر عالي الجودة مغذي بالفتيمينات", price: 2800, image: "phot7.jpg" },
+     
+      { id: 12, name: "زبيب اصفر", description: "زبيب اصفر طازج من جبال الهملايا", price: 2800, image: "phot25.jpg" }
+
+
+
+
+
+
+
+
+
+    ];
+
+    // بيانات المستخدمين (لأغراض العرض فقط)
+    const users = [
+      { username: "admin", password: "123" },
+      { username: "user", password: "123" }
+    ];
+  </script>
+  <script src="myprojav2.js"></script>
+</body>
+</html>
