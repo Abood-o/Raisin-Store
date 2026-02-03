@@ -216,7 +216,7 @@ object-fit: contain;
   
     /* المنتجات في عمودين  على الجوال */
     .products {
-      grid-template-columns:repeat(2, 1fr);
+      grid-template-columns:1fr;
       padding: 10px;
       gap: 15px;
       /* width: 100%; */
@@ -380,4 +380,5 @@ button {
 .product {
   padding-bottom: 5px; /* تقليل المساحة السفلية قليلاً */
 }
+
 
